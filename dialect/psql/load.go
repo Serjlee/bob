@@ -84,8 +84,16 @@ func Preload[T any, Ts ~[]T](rel orm.Relationship, cols []string, opts ...Preloa
 				}
 			}
 
+			// FIXME: workaround for wrong to alias not using the schema
+			var to Expression
+			if side.ToSchema != "" {
+				to = Quote(side.ToSchema, side.To)
+			} else {
+				to = Expression{}.New(orm.SchemaTable(side.To))
+			}
+
 			queryMods = append(queryMods, sm.
-				LeftJoin(orm.SchemaTable(side.To)).
+				LeftJoin(to).
 				As(alias).
 				On(on...))
 

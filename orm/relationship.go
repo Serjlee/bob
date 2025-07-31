@@ -14,6 +14,8 @@ type RelWhere struct {
 type RelSide struct {
 	From string `yaml:"from"`
 	To   string `yaml:"to"`
+	// FIXME: probably useless, workaround to pass the schema to Preload()
+	ToSchema string `yaml:"toSchema"`
 
 	// To make sure the column lengths match and are in the right order,
 	// a slice of tupules is expected.

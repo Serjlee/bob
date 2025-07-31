@@ -91,8 +91,11 @@ func build{{$tAlias.UpSingular}}Preloader() {{$tAlias.DownSingular}}Preloader {
             {{- $fromTable := $.Tables.Get $side.From -}}
             {{- $toTable = $.Tables.Get $side.To -}}
             {
-              From: TableNames.{{$from.UpPlural}},
+			  // FIXME: workaround for wrong from alias
+              From: "{{$side.From}}",
               To: TableNames.{{$to.UpPlural}},
+			  // FIXME: workaround for wrong to alias missing the schema
+			  ToSchema: "{{$toTable.Schema}}",
               {{if $side.FromColumns -}}
               FromColumns: []string{
                 {{range $name := $side.FromColumns -}}
